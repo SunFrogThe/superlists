@@ -107,3 +107,4 @@ venv.bak/
 .mypy_cache/
 
 requirements2.txt
+.vscode
