@@ -15,13 +15,24 @@
             "problemMatcher": []
         },
         {
-            "label": "test unit",
+            "label": "test lists",
             "type": "shell",
             "command": "E:/Projects/python/django/tdd/env_superlists/Scripts/python.exe",
             "args": [
                 "manage.py",
                 "test",
                 "lists"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "test accounts",
+            "type": "shell",
+            "command": "E:/Projects/python/django/tdd/env_superlists/Scripts/python.exe",
+            "args": [
+                "manage.py",
+                "test",
+                "accounts"
             ],
             "problemMatcher": []
         },
