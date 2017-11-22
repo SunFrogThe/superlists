@@ -4,9 +4,9 @@ from django.core import mail
 from selenium.webdriver.common.keys import Keys
 
 from .base import FunctionalTest
+from accounts import views
 
 TEST_EMAIL = 'edith@example.com'
-SUBJECT = 'Your login link for SuperLists'
 
 
 class LoginTest(FunctionalTest):
@@ -27,7 +27,7 @@ class LoginTest(FunctionalTest):
         # She checks her email and finds a message
         email = mail.outbox[0]
         self.assertIn(TEST_EMAIL, email.to)
-        self.assertEqual(email.subject, SUBJECT)
+        self.assertEqual(email.subject, views.SUBJECT)
 
         # It has a url link in it
         self.assertIn('Use this link to log in', email.body)
