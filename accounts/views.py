@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpRequest
 from django.core.mail import send_mail
 from django.contrib import messages
+from django.contrib import auth
 
-from .models import Token
+from .models import Token, User
 
 SUBJECT = 'Your login link for Superlists'
 BODY = 'Use this link to log in:\n\n'
@@ -29,5 +30,8 @@ def send_login_email(request: HttpRequest):
 
 
 def login(request: HttpRequest):
-    token = request.GET['token']
+    token = request.GET.get('token')
+    user = auth.authenticate(uid=token)
+    if user:
+        auth.login(request, user)
     return redirect('/')

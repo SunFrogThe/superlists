@@ -1,6 +1,11 @@
 import uuid
 
 from django.db import models
+from django.contrib import auth
+
+# Fix for
+# ValueError: The following fields do not exist in this model or are m2m fields: last_login
+auth.signals.user_logged_in.disconnect(auth.models.update_last_login)
 
 
 class User(models.Model):
