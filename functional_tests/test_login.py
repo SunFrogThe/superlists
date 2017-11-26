@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from .base import FunctionalTest
 from accounts import views
 
-TEST_EMAIL = 'edith@example.com'
+from .constants import TEST_EMAIL
 
 
 class LoginTest(FunctionalTest):

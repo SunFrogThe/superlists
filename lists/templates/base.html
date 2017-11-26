@@ -15,14 +15,18 @@
         <a class="navbar-brand" href="#">SuperLists</a>
         {% if user.email %}
         <ul class="navbar-nav">
+            <a href="{% url 'my_lists' user.email %}" class="nav-item nav-link">My lists</a>
+        </ul>
+        <ul class="navbar-nav">
+            <a href="#" class="nav-item nav-link">My lists</a>
             <li class="nav-item navbar-text">Logged in as {{ user.email }}</li>
             <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
         </ul>
         {% else %}
         <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'send_login_email' %}">
             {% csrf_token %}
-            <span>Enter email to log in:</span>
-            <input class="form-control mr-sm-2" name="email" type="email" placeholder="E-mail">
+            <span class="navbar-text">Enter email to log in:</span>
+            <input class="form-control mx-sm-2" name="email" type="email" placeholder="E-mail">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
         </form>
         {% endif %}
@@ -31,11 +35,13 @@
     {% if messages %}
     <div class="row">
         <div class="col-md-8">
-            {% for message in messages %} {% if message.level_tag == 'success' %}
-            <div class="alert alert-success">{{ message }}</div>
-            {% else %}
-            <div class="alert alert-warning">{{ message }}</div>
-            {% endif %} {% endfor %}
+            {% for message in messages %}
+                {% if message.level_tag == 'success' %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% else %}
+                    <div class="alert alert-warning">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
     {% endif %}
@@ -46,21 +52,34 @@
             <div class="col-md-6 offset-md-3 jumbotron">
                 <div class="text-center">
                     <h1>{% block header_text %}{% endblock %}</h1>
-                    <form method="POST" action="{% block form_action %}{% endblock %}">
-                        {{ form.text }} {% csrf_token %} {% if form.errors %}
-                        <div class="form-control is-invalid">
-                            <span class="help-block">{{ form.text.errors }}</span>
-                        </div>
-                        {% endif %}
-                    </form>
+                    {% block list_form %}
+                        <form method="POST" action="{% block form_action %}{% endblock %}">
+                            {% csrf_token %}
+                            {{ form.text }}
+                            {% if form.errors %}
+                                <div class="form-control is-invalid">
+                                    <span class="help-block">{{ form.text.errors }}</span>
+                                </div>
+                            {% endif %}
+                        </form>
+                    {% endblock list_form %}
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                {% block table %} {% endblock %}
+                {% block table %}
+                {% endblock %}
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                {% block extra_content %}
+                {% endblock %}
+            </div>
+        </div>
+
     </div>
 
     <script src="/static/js/jquery-3.2.1.min.js"></script>

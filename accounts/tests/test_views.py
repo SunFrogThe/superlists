@@ -5,8 +5,9 @@ from django.test import TestCase
 from accounts import views
 from accounts.models import Token
 
+from .constants import TEST_EMAIL
+
 EMAIL = 'email'
-TEST_EMAIL = 'edith@example.com'
 
 # urls
 SEND_LOGIN_EMAIL = '/accounts/send_login_email'
@@ -42,7 +43,7 @@ class SendLoginMailViewTest(TestCase):
         message = list(response.context['messages'])[0]
         self.assertEqual(
             message.message,
-            "Check your email, we've sent you a link you can use to log in."
+            views.MESSAGE
         )
         self.assertEqual(message.tags, "success")
 
