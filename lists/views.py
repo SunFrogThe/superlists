@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
 from .models import Item, List
-from .forms import ItemForm, ExistingListItemForm
+from .forms import ItemForm, ExistingListItemForm, NewListForm
 
 User = get_user_model()
 
@@ -29,13 +29,11 @@ def view_list(request: HttpRequest, list_id):
 
 
 def new_list(request: HttpRequest):
-    form = ItemForm(data=request.POST)
+    form = NewListForm(data=request.POST)
     if form.is_valid():
-        list_ = List.objects.create()
-        form.save(for_list=list_)
+        list_ = form.save(owner=request.user)
         return redirect(list_)
-    else:
-        return render(request, 'home.html', {'form': form})
+    return render(request, 'home.html', {'form': form})
 
 
 def my_lists(request: HttpRequest, email):
