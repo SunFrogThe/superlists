@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from accounts.authentication import PasswordlessAuthenticationBackend
 from accounts.models import Token
 
-from .constants import TEST_EMAIL
+from functional_tests.constants import TEST_EMAIL
 
 User = get_user_model()
 
