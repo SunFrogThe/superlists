@@ -18,8 +18,10 @@ sudo: required
 script:
 - python manage.py test
 deploy:
+  provider: heroku
+  app: django-tdd-superlists
   api_key:
     secure: pWuiQ8/wCLGSjuC5iCJNKlVPXz0sRB9boMJ4mIuZLwXHxVm6NVAuviS7Aw4w6GSSwJSMagGcAoq0GGr7i9J9/SoAQ1xbYdruU1YX+LaupMz2dtlyvL48hMbBIaK2loHGVMT89kF07578ebvX0psbb4X3wN1o0vIy3oIMEFjhOA//i8A/VgqdWXW41NxepfaEoSvyhBSy3PChXl79PKMImwfxPXRMRkahqyZywQXIRp+iMIpbhB7OjpANe+u1USF2h74AnshhS5AbdmCLRwoKcP/xXx0A36jaOy1HWohDoSZXFxxQBM6ry0BvaHOs34Rv8SCgp/jtBIitHqrPB5EChJMXcVkt/LcQAXbYqjtO18KAu90jE5m1hc+qU7DQuESZKhV1YRTg3NAYkQinUjENFSNax2V7ZcD5+brzT4/3X5+i77TOJJ4RlFjm8hVIfX0z8B/Q/BsEC1tc6mqAqR0jn96PYi9iXSOuHt0KEFYO47DaSv2FmJNcWLKFGoxDfpUJmbDZYwIJPnBLOlrIqKJBnG6DvOJLBxRjy6OsXBiBrWGmcM9w77sNm2+rKWXn+Tc40wOExg7zohxdmh5SAREe28SlLwRKCtFOiNHA7wCg4Q/kVmA384rHWLnZdtkdB/j5l6WVXv9nTgI3bcx4IafCRJ6r66ToP+qkLYh5XCbNEdY=
-after_deploy:
-- python manage.py makemigrations
-- python manage.py migrate
+  run:
+  - python manage.py makemigrations
+  - python manage.py migrate
