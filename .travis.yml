@@ -9,7 +9,8 @@ before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - sleep 3
-- google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+- google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost
+  &
 install:
 - pip install -r requirements.txt
 - pip install -r dev-requirements.txt
@@ -17,12 +18,8 @@ sudo: required
 script:
 - python manage.py test
 deploy:
-  provider: heroku
   api_key:
-   - secure: S14yl/tkgjNW9KOLHNyUI/vjjqHgSI/zQmWODjEb9tqfPiteY0Jm70IKR/5BN/YBFFVM/j6b9T9QFV/iCNdLxTyh35xWEoYwo9rzaS05Rn/k06iDFRqG/u16A/1O+jPxXKl/SK7QYe9etPmv2vGByRk8j+KKtnF0aJCm0KyNxmcHRGE5vkd8Suxvu+dlGiod3yFrcyQAtYkUvj+JE5IuHrj1PrM+7JvHlI649vXnsBnSsQ3zKfyYujWdTWKrqLn/1F5mEYc5Grfq9XX+LC3F6BE8GEzBYjBzstC5HONir2Y8meSGm67M9sY1Jh2mncHW/UgSjLa/x8i7WZT6raCal4GbfcFTJD/i96IsrR49qmd87pdh3QGuCIjRNHjLDhU8DOQCTG2Lfx4WpmzzMPu1e8jTdch6lKCgsgtGdbXsjU5qkj0hm9uBi9KdM7S7QCIWNhERaKXIpdTPSj6ccGTz5HEWwScvU2kx0Gydp2s47UgDnBvXFgHoSsQd5mQmPRKtn3ilFN9Y/MxogwijHGLRNquWRed2wQ6G2zNwG6Aqqk6nfWYqqkyrmJP9g0zQQJDE0FggwBOK+jve5FPrRZ8wvQBl9em4d+flkT+lxYo2JHOpIq9QX9xxi6NiSOIHZMBFhrjZKM/IXLq0Q+OjrFVZ+7Popdcl3v4DO7SLmFdmuT0=
-  app: superlists
-  on:
-    repo: SunFrogThe/superlists
-  run:
-  - python manage.py makemigrations
-  - python manage.py migrate
+    secure: pWuiQ8/wCLGSjuC5iCJNKlVPXz0sRB9boMJ4mIuZLwXHxVm6NVAuviS7Aw4w6GSSwJSMagGcAoq0GGr7i9J9/SoAQ1xbYdruU1YX+LaupMz2dtlyvL48hMbBIaK2loHGVMT89kF07578ebvX0psbb4X3wN1o0vIy3oIMEFjhOA//i8A/VgqdWXW41NxepfaEoSvyhBSy3PChXl79PKMImwfxPXRMRkahqyZywQXIRp+iMIpbhB7OjpANe+u1USF2h74AnshhS5AbdmCLRwoKcP/xXx0A36jaOy1HWohDoSZXFxxQBM6ry0BvaHOs34Rv8SCgp/jtBIitHqrPB5EChJMXcVkt/LcQAXbYqjtO18KAu90jE5m1hc+qU7DQuESZKhV1YRTg3NAYkQinUjENFSNax2V7ZcD5+brzT4/3X5+i77TOJJ4RlFjm8hVIfX0z8B/Q/BsEC1tc6mqAqR0jn96PYi9iXSOuHt0KEFYO47DaSv2FmJNcWLKFGoxDfpUJmbDZYwIJPnBLOlrIqKJBnG6DvOJLBxRjy6OsXBiBrWGmcM9w77sNm2+rKWXn+Tc40wOExg7zohxdmh5SAREe28SlLwRKCtFOiNHA7wCg4Q/kVmA384rHWLnZdtkdB/j5l6WVXv9nTgI3bcx4IafCRJ6r66ToP+qkLYh5XCbNEdY=
+after_deploy:
+- python manage.py makemigrations
+- python manage.py migrate
