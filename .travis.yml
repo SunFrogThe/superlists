@@ -3,6 +3,15 @@ python:
 - "3.6.3"
 install:
 - pip install -r requirements.txt
+sudo: required
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+before_script:
+  - export CHROME_BIN=chromium-browser
 script:
 - python manage.py test
 deploy:
@@ -15,10 +24,3 @@ deploy:
   run:
     - "python manage.py makemigrations"
     - "python manage.py migrate"
-sudo: required
-addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
