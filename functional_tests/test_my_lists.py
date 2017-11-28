@@ -6,8 +6,6 @@ from .base import FunctionalTest
 from .constants import TEST_EMAIL
 User = get_user_model()
 
-NOT_FOUND = '/404_no_such_url/'
-
 
 class MyListsTest(FunctionalTest):
 
@@ -19,7 +17,7 @@ class MyListsTest(FunctionalTest):
         session.save()
         # to set a cookie we need to first visit the domain.
         # 404 pages load the quickest!
-        self.browser.get(self.live_server_url + NOT_FOUND)
+        self.browser.get(self.live_server_url)
         self.browser.add_cookie({
             'name': settings.SESSION_COOKIE_NAME,
             'value': session.session_key,
