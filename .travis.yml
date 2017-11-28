@@ -1,0 +1,28 @@
+language: python
+python:
+  - "3.6.3"
+addons:
+  chrome: stable
+before_install:
+  - sudo apt-get install chromium-chromedriver
+  - sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+install:
+  - pip install -r requirements.txt
+  - pip install -r dev-requirements.txt
+sudo: required
+script:
+  - python manage.py test
+deploy:
+  provider: heroku
+  api_key:
+    secure: NiSm3HuhLQI/lN6lp1ojZoMWRWsH2ivA8CfK2OClEOFFqcJZZ4pSWCLHfEIeCeTwVqUyQWEnTSw8tZ4K0UFUYRIbGIdh1/Z2zePO0tWwaxMPyVyESUAiDU4UtR5dHmBQJWFYe40/onUta2e2O6cLeh7ol4fdiLducg9t0lF5T5a0G3hYcje4OPtLVcK4h042s6kqe5/PmMr/f5+5ID2R9wu93KL92LhYNl9bBk6Nr6n05NcW0Exdv9IvkOPyHaqFlYczTZ41EsgOuA5UTh0NcQCXk8YGEgUoqOzJF3jo0HOfRHizWjh+iOo5+jFUUgwYsez5mJ4rWvan0+T0ouwK1n2CUj8fDmPV4wMNwsD825ddRfYk3s4UI+JcryhnD/taTWBlFJd6DHfTySr/IfeemDK9SpLj7XJpb8veDkro6pHlqw1alPsJWtZLbGMkS4PDDI8gCdOy6txOFl4+lkP7n/WvkLCkhZNiTyPlOA5PYDmRLCKU+fQpaiHauSLl4y/35Vz0WcV9mEwREqFZdM1I3nyHRkaSpro1mj5NcEA+feboUfzGWKzQcF5YudPZMZMT62Mx2pf4GU1PgiOHp07MMv6ceUiCDgEcN1AjP/EPoEUEO/fcznxMrCPag4/uhZV76dkNQ4PUDR7tBsPZZPxWatlGF0zzc6C9PdXXLWTWqcE=
+  app: superlists
+  on:
+    repo: SunFrogThe/superlists
+  run:
+    - "python manage.py makemigrations"
+    - "python manage.py migrate"

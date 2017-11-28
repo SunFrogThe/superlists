@@ -5,7 +5,7 @@ from django.test import TestCase
 from accounts import views
 from accounts.models import Token
 
-from .constants import TEST_EMAIL
+from functional_tests.constants import TEST_EMAIL
 
 EMAIL = 'email'
 
