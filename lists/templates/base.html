@@ -3,31 +3,53 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
     <title>To-Do lists</title>
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/base.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="/static/base.css"
+          rel="stylesheet">
+    <link rel="icon"
+          type="image/png"
+          href="/static/img/favicon-32x32.png"
+          sizes="32x32" />
+    <link rel="icon"
+          type="image/png"
+          href="/static/img/favicon-16x16.png"
+          sizes="16x16" />
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
-        <a class="navbar-brand" href="#">SuperLists</a>
+        <a class="navbar-brand"
+           href="#">SuperLists</a>
         {% if user.email %}
         <ul class="navbar-nav">
-            <a href="{% url 'my_lists' user.email %}" class="nav-item nav-link">My lists</a>
+            <a href="{% url 'my_lists' user.email %}"
+               class="nav-item nav-link">My lists</a>
         </ul>
         <ul class="navbar-nav">
-            <a href="#" class="nav-item nav-link">My lists</a>
+            <a href="#"
+               class="nav-item nav-link">My lists</a>
             <li class="nav-item navbar-text">Logged in as {{ user.email }}</li>
-            <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
+            <a class="nav-item nav-link"
+               href="{% url 'logout' %}">Log out</a>
         </ul>
         {% else %}
-        <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'send_login_email' %}">
+        <form class="form-inline my-2 my-lg-0"
+              method="POST"
+              action="{% url 'send_login_email' %}">
             {% csrf_token %}
             <span class="navbar-text">Enter email to log in:</span>
-            <input class="form-control mx-sm-2" name="email" type="email" placeholder="E-mail">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+            <input class="form-control mx-sm-2"
+                   name="email"
+                   type="email"
+                   placeholder="E-mail">
+            <button class="btn btn-outline-success my-2 my-sm-0"
+                    type="submit">Submit</button>
         </form>
         {% endif %}
     </nav>
@@ -35,13 +57,11 @@
     {% if messages %}
     <div class="row">
         <div class="col-md-8">
-            {% for message in messages %}
-                {% if message.level_tag == 'success' %}
-                    <div class="alert alert-success">{{ message }}</div>
-                {% else %}
-                    <div class="alert alert-warning">{{ message }}</div>
-                {% endif %}
-            {% endfor %}
+            {% for message in messages %} {% if message.level_tag == 'success' %}
+            <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+            <div class="alert alert-warning">{{ message }}</div>
+            {% endif %} {% endfor %}
         </div>
     </div>
     {% endif %}
@@ -53,30 +73,27 @@
                 <div class="text-center">
                     <h1>{% block header_text %}{% endblock %}</h1>
                     {% block list_form %}
-                        <form method="POST" action="{% block form_action %}{% endblock %}">
-                            {% csrf_token %}
-                            {{ form.text }}
-                            {% if form.errors %}
-                                <div class="form-control is-invalid">
-                                    <span class="help-block">{{ form.text.errors }}</span>
-                                </div>
-                            {% endif %}
-                        </form>
+                    <form method="POST"
+                          action="{% block form_action %}{% endblock %}">
+                        {% csrf_token %} {{ form.text }} {% if form.errors %}
+                        <div class="form-control is-invalid">
+                            <span class="help-block">{{ form.text.errors }}</span>
+                        </div>
+                        {% endif %}
+                    </form>
                     {% endblock list_form %}
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                {% block table %}
-                {% endblock %}
+                {% block table %} {% endblock %}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                {% block extra_content %}
-                {% endblock %}
+                {% block extra_content %} {% endblock %}
             </div>
         </div>
 
