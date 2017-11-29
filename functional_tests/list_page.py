@@ -1,10 +1,10 @@
 from selenium.webdriver.common.keys import Keys
-from .base import wait
+from .base import wait, FunctionalTest
 
 
 class ListPage:
 
-    def __init__(self, test):
+    def __init__(self, test: FunctionalTest):
         self.test = test
 
     def add_list_item(self, text):
@@ -25,3 +25,24 @@ class ListPage:
 
     def get_item_input_box(self):
         return self.test.browser.find_element_by_id('id_text')
+
+    def get_share_box(self):
+        return self.test.browser.find_element_by_css_selector(
+            'input[name="share"]'
+        )
+
+    def share_list_with(self, email):
+        self.get_share_box.send_keys(email)
+        self.get_share_box.send_keys(Keys.ENTER)
+        self.test.wait_for(lambda: self.test.assertIn(
+            email,
+            [item.text for item in self.get_shared_with_list()]
+        ))
+
+    def get_shared_with_list(self):
+        return self.test.browser.find_elements_by_css_selector(
+            '.list-share'
+        )
+
+    def get_list_owner(self):
+        return self.test.browser.find_element_by_id('id_list_owner').text
