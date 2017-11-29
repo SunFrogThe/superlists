@@ -43,7 +43,7 @@
             "args": [
                 "manage.py",
                 "test",
-                "functional_tests.test_my_lists"
+                "functional_tests.test_sharing"
             ],
             "problemMatcher": []
         }

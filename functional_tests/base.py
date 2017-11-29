@@ -7,7 +7,11 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.conf import settings
+from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.auth import BACKEND_SESSION_KEY, SESSION_KEY, get_user_model
 
+User = get_user_model()
 
 MAX_WAIT = 10
 
@@ -26,12 +30,28 @@ def wait(fn):
 
 
 class FunctionalTest(StaticLiveServerTestCase):
+
     def setUp(self):
         self.browser = webdriver.Chrome()
 
     def tearDown(self):
         self.browser.refresh()
         self.browser.quit()
+
+    def create_pre_authenticated_session(self, email):
+        user = User.objects.create(email=email)
+        session = SessionStore()
+        session[SESSION_KEY] = user.pk
+        session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[0]
+        session.save()
+        # to set a cookie we need to first visit the domain.
+        # 404 pages load the quickest!
+        self.browser.get(self.live_server_url)
+        self.browser.add_cookie({
+            'name': settings.SESSION_COOKIE_NAME,
+            'value': session.session_key,
+            'path': '/',
+        })
 
     @wait
     def wait_for_row_in_list_table(self, row_text):
@@ -65,3 +85,5 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.get_item_input_box().send_keys(Keys.ENTER)
         item_number = num_rows + 1
         self.wait_for_row_in_list_table(f'{item_number}: {item_text}')
+
+
