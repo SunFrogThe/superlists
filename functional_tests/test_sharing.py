@@ -33,7 +33,11 @@ class SharingTest(FunctionalTest):
         self.browser = edith_browser
         list_page = ListPage(self).add_list_item('Get help')
 
-        # She notices a "Shere this list" option
+        # She notices a "Share this list" option
+        self.wait_for(lambda: self.assertIn(
+            'Share this list with:',
+            self.browser.find_element_by_tag_name('body').text
+        ))
         share_box = list_page.get_share_box()
         self.assertEqual(
             share_box.get_attribute('placeholder'),
@@ -41,8 +45,13 @@ class SharingTest(FunctionalTest):
         )
 
         # She shares her list.
-        # The page updates to say that it's shared with Oniciferous:
         list_page.share_list_with(EMAIL_ONI)
+
+        # The page updates to say that it's shared with Oniciferous:
+        self.wait_for(lambda: self.assertIn(
+            f'List shared with {EMAIL_ONI}',
+            self.browser.find_element_by_tag_name('body').text
+        ))
 
         # Oniciferous now goes to the lists page with his browser
         self.browser = oni_browser

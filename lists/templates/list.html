@@ -1,11 +1,37 @@
-{% extends 'base.html' %}
-{% block header_text %}Your To-Do list{% endblock %}
-{% block form_action %}{% url 'view_list' list.id %}{%endblock %} {% block table %}
-<table id="id_list_table" class="table">
+{% extends 'base.html' %} {% block header_text %}Your To-Do list{% endblock header_text %}
+{% block extra_content %}
+<div class="container">
+    {% if list.owner %}
+        <span id="id_list_owner">{{ list.owner }}</span>
+    {% else %}
+    {% endif %}
+    <ul class="row list-group"
+        id="list-share">
+        {% for email in list.shared_with.all %}
+            <li class="list-group-item">{{ email }}</li>
+        {% endfor %}    
+    </ul>
+    <form class="row"
+          action="{% url 'list_share' list.id %}"
+          method="post">
+        {% csrf_token %}
+        <label for="shared_email">Share this list with:</label>
+        <input type="email"
+        name="shared_email"
+        id="shared_email"
+        class="form-control mx-sm-2"
+        placeholder="your-friend@example.com">
+    </form>
+</div>
+{% endblock extra_content %}
+{% block form_action %}{% url 'view_list' list.id %}{%endblock form_action %}
+{% block table %}
+<table id="id_list_table"
+       class="table">
     {% for item in list.item_set.all %}
     <tr>
         <td>{{ forloop.counter }}: {{ item.text }}</td>
     </tr>
     {% endfor %}
 </table>
-{% endblock %}
+{% endblock table %}

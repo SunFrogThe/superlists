@@ -43,9 +43,10 @@
               method="POST"
               action="{% url 'send_login_email' %}">
             {% csrf_token %}
-            <span class="navbar-text">Enter email to log in:</span>
+            <label class="navbar-text" for="name">Enter email to log in:</label>
             <input class="form-control mx-sm-2"
                    name="email"
+                   id="name"
                    type="email"
                    placeholder="E-mail">
             <button class="btn btn-outline-success my-2 my-sm-0"
@@ -56,7 +57,7 @@
 
     {% if messages %}
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 text-center">
             {% for message in messages %} {% if message.level_tag == 'success' %}
             <div class="alert alert-success">{{ message }}</div>
             {% else %}

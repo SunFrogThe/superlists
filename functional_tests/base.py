@@ -52,6 +52,7 @@ class FunctionalTest(StaticLiveServerTestCase):
             'value': session.session_key,
             'path': '/',
         })
+        self.browser.refresh()
 
     @wait
     def wait_for_row_in_list_table(self, row_text):

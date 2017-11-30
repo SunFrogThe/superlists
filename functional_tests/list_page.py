@@ -28,12 +28,12 @@ class ListPage:
 
     def get_share_box(self):
         return self.test.browser.find_element_by_css_selector(
-            'input[name="share"]'
+            'input[name="shared_email"]'
         )
 
     def share_list_with(self, email):
-        self.get_share_box.send_keys(email)
-        self.get_share_box.send_keys(Keys.ENTER)
+        self.get_share_box().send_keys(email)
+        self.get_share_box().send_keys(Keys.ENTER)
         self.test.wait_for(lambda: self.test.assertIn(
             email,
             [item.text for item in self.get_shared_with_list()]
@@ -41,7 +41,7 @@ class ListPage:
 
     def get_shared_with_list(self):
         return self.test.browser.find_elements_by_css_selector(
-            '.list-share'
+            '#list-share > li'
         )
 
     def get_list_owner(self):

@@ -45,7 +45,7 @@ class SendLoginMailViewTest(TestCase):
             message.message,
             views.MESSAGE
         )
-        self.assertEqual(message.tags, "success")
+        self.assertEqual(message.tags, 'success')
 
     @patch('accounts.views.messages')
     def test_adds_success_message_with_mocks(self, mock_messages):
